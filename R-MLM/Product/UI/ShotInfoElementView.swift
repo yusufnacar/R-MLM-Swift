@@ -41,14 +41,14 @@ class ShotInfoElementView : UIView {
     
     func configureUI() {
         
+        
         self.addSubview(valueLabel)
         self.addSubview(headerLabel)
         self.addSubview(unitLabel)
-        
         NSLayoutConstraint.activate([
 
             
-            valueLabel.topAnchor.constraint(equalTo: self.topAnchor),
+            valueLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             valueLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor ),
 
             valueLabel.rightAnchor.constraint(equalTo: unitLabel.leftAnchor),
@@ -59,7 +59,7 @@ class ShotInfoElementView : UIView {
 
 
             unitLabel.rightAnchor.constraint(equalTo: self.rightAnchor),
-            unitLabel.centerYAnchor.constraint(equalTo: valueLabel.centerYAnchor),
+            unitLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: self.frame.height * 0.2),
             unitLabel.leftAnchor.constraint(equalTo: valueLabel.rightAnchor),
             
 

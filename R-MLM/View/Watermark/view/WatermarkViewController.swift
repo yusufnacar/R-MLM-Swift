@@ -54,12 +54,16 @@ class WatermarkViewController: UIViewController , Storyboarded  {
         pointView.clipsToBounds = true
         return pointView
     }()
-    
-    
-    
-    
-    
+
     let pointLabel:UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let successLabel:UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .white
@@ -69,8 +73,8 @@ class WatermarkViewController: UIViewController , Storyboarded  {
     
 
     let segmentLabel : ShotInfoElementView = ShotInfoElementView(frame: CGRect(x: 0, y: 0, width: 200, height: 200), unit: "", header: "Segment")
-    let shotPosXLabel : ShotInfoElementView = ShotInfoElementView(frame: CGRect(x: 0, y: 0, width: 200, height: 200), unit: "KM/S", header: "Shot Pos X" )
-    let shotPosYLabel : ShotInfoElementView = ShotInfoElementView(frame: CGRect(x: 0, y: 0, width: 200, height: 200), unit: "KM/S", header: "Shot Pos Y")
+    let shotPosXLabel : ShotInfoElementView = ShotInfoElementView(frame: CGRect(x: 0, y: 0, width: 200, height: 200), unit: "X", header: "Shot Pos X" )
+    let shotPosYLabel : ShotInfoElementView = ShotInfoElementView(frame: CGRect(x: 0, y: 0, width: 200, height: 200), unit: "Y", header: "Shot Pos Y")
 
 
     override func viewDidLoad() {
@@ -126,6 +130,10 @@ extension WatermarkViewController {
             shotPosYLabel.topAnchor.constraint(equalTo: shotPosXLabel.bottomAnchor, constant: infoViewContainer.frame.height * 0.05),
             shotPosYLabel.widthAnchor.constraint(equalToConstant:infoViewContainer.frame.width * 0.95),
             shotPosYLabel.heightAnchor.constraint(equalToConstant:infoViewContainer.frame.height * 0.11),
+            
+            successLabel.centerXAnchor.constraint(equalTo: infoViewContainer.centerXAnchor),
+            successLabel.topAnchor.constraint(equalTo: shotPosYLabel.bottomAnchor, constant: infoViewContainer.frame.height * 0.05),
+
 
         ])
     }
@@ -136,8 +144,10 @@ extension WatermarkViewController {
         
         self.view.addSubview(videoViewContainer)
         self.view.addSubview(infoViewContainer)
+        
         pointView.addSubview(pointLabel)
         infoViewContainer.addSubview(pointView)
+        infoViewContainer.addSubview(successLabel)
         
         infoViewContainer.addSubview(segmentLabel)
         segmentLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -161,11 +171,14 @@ extension WatermarkViewController {
 extension WatermarkViewController {
     func setValues() {
         pointLabel.text = String(shot?.point ?? 0)
+        successLabel.text = shot?.inOut == true ? "Succesful" : "Failed"
+        successLabel.textColor = shot?.inOut == true ? UIColor.green : UIColor.red
         let shotPosX = Double(round(10 * (shot?.shotPosX ?? 0)) / 10)
         let shotPosY = Double(round(10 * (shot?.shotPosY ?? 0)) / 10)
         segmentLabel.valueLabel.text =  String(shot?.segment ?? 0)
         shotPosXLabel.valueLabel.text = String(shotPosX)
         shotPosYLabel.valueLabel.text = String(shotPosY)
+        
     }
 }
 
